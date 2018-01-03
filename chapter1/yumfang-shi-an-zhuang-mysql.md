@@ -6,7 +6,7 @@
 
 wget [https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm](https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm)
 
-安装 
+安装
 
 yum -y install mysql57-community-release-el7-11.noarch.rpm
 
