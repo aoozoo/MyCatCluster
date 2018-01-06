@@ -3,7 +3,10 @@
 * [Introduction](README.md)
 * [Yum方式安装MySQL](chapter1/yumfang-shi-an-zhuang-mysql.md)
 * [用户及安全策略](chapter1/yong-hu-ji-an-quan-ce-lve.md)
-* [MySQL快速入门](chapter1/mysqlkuai-su-ru-men.md)
-  * 数据库管理
+* [MySQL基本命令](chapter1/mysqlkuai-su-ru-men.md)
+  * [数据库管理](chapter1/mysqlkuai-su-ru-men/shu-ju-ku-guan-li.md)
   * [用户管理](chapter1/mysqlkuai-su-ru-men/yong-hu-guan-li.md)
+  * [表管理](chapter1/mysqlkuai-su-ru-men/biao-guan-li.md)
+  * [修改表](chapter1/mysqlkuai-su-ru-men/xiu-gai-biao.md)
+* [主从复制](zhu-cong-fu-zhi.md)
 
