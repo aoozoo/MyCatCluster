@@ -1,6 +1,6 @@
 MySQL默认的安全策略，要求在没有修改默认的root的密码之前，不能够对MySQL进行操作，会提示你修改密码
 
-默认的密码策略,这个其实与validate\_password\_policy的值有关，RPM安装默认装载了validate\_password这个插件。
+如下：
 
 ```shell
 [root@node_101_192.168.183.101 ~]#  mysql -uroot -p$(fgrep password /var/log/mysqld.log | awk '{print $NF}' | head -1) -e "show variables like '%validate%';"
@@ -13,6 +13,8 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 ERROR 1820 (HY000) at line 1: You must reset your password using ALTER USER statement before executing this statement.
 [root@node_101_192.168.183.101 ~]#
 ```
+
+默认的密码策略,这个其实与validate\_password\_policy的值有关，RPM安装默认装载了validate\_password这个插件。
 
 首先修改默认的root密码
 
