@@ -1,32 +1,34 @@
 ## 安装MySQL的**yum仓库**
 
-[http://dev.mysql.com/downloads/repo/yum/](http://dev.mysql.com/downloads/repo/yum/)
+> [http://dev.mysql.com/downloads/repo/yum/](http://dev.mysql.com/downloads/repo/yum/)
+>
+> 选择相应的版本进行下载
+>
+> wget [https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm](https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm)
+>
+> 安装
+>
+> yum -y install mysql57-community-release-el7-11.noarch.rpm
 
-选择相应的版本进行下载
+# 安装MySQL
 
-wget [https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm](https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm)
+> 如果需要安装5.6或者5.5版本的MySQL，修改
+>
+> /etc/yum.repos.d/mysql-community.repo
+>
+> 文件，打开相应的仓库即可
+>
+> 如果之前安装过mariadb，清除一下，否则可能会报错。
+>
+> yum -y remove mariadb-libs MariaDB-common\*  MariaDB\*
+>
+> 然后删除/var/lib/mysql 目录
+>
+> 安装MySQL5.7
+>
+> yum -y install mysql-community-server
 
-安装
-
-yum -y install mysql57-community-release-el7-11.noarch.rpm
-
-如果需要安装5.6或者5.5版本的MySQL，修改
-
-/etc/yum.repos.d/mysql-community.repo
-
-文件，打开相应的仓库即可
-
-如果之前安装过mariadb，清除一下，否则可能会报错。
-
-yum -y remove mariadb-libs MariaDB-common\*  MariaDB\*
-
-然后删除/var/lib/mysql 目录
-
-安装MySQL5.7
-
-yum -y install mysql-community-server
-
-启动mysqld
+# 启动mysqld
 
 systemctl start mysqld
 
