@@ -111,7 +111,7 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 | query_cache_wlock_invalidate         | OFF   |
 | validate_password_check_user_name    | OFF   |
 | validate_password_dictionary_file    |       |
-| validate_password_length             | 4     |
+| validate_password_length             | 4     |        # 最小要求是4位长度，所以最终生效的不是设置的一位长度
 | validate_password_mixed_case_count   | 1     |
 | validate_password_number_count       | 1     |
 | validate_password_policy             | LOW   |
@@ -120,5 +120,7 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 [root@node_101_192.168.183.101 ~]#
 ```
 
+需要注意的一点是从MySQL 5.7–&gt;MySQL 5.7.11版本之间，默认的用户密码过期时间为360天，变量default\_password\_lifetime.
 
+所以如果你使用的是此版本一定需要注意，你可以把此值改为0，表示永不失效。从MySQL 5.7.11开始官方也意识到这是个巨坑，所以就默认把此值改为了0.
 
