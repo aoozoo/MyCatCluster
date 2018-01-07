@@ -1,6 +1,6 @@
 # MyCatCluster
 
-MyCatCluster学习笔记 
+MyCatCluster学习笔记
 
 > 说明：这个只是我的学习笔记，并非详细的教程，阅读需要有一些数据库和Linux基础。
 >
