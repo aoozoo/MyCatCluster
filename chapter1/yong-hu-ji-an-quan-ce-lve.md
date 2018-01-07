@@ -124,3 +124,25 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 
 所以如果你使用的是此版本一定需要注意，你可以把此值改为0，表示永不失效。从MySQL 5.7.11开始官方也意识到这是个巨坑，所以就默认把此值改为了0.
 
+# 在配置文件中设置密码策略
+
+```
+# 关闭密码策略
+sed -i '/\[mysqld\]/a\validate-password=off' /etc/my.cnf
+
+
+# 设置只验证密码长度大于等于4位
+sed -i '/\[mysqld\]/a\validate-password-length=4' /etc/my.cnf
+sed -i '/\[mysqld\]/a\validate-password-policy=0' /etc/my.cnf
+
+
+
+
+
+
+```
+
+
+
+
+
