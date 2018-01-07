@@ -9,4 +9,8 @@
   * [表管理](chapter1/mysqlkuai-su-ru-men/biao-guan-li.md)
   * [修改表](chapter1/mysqlkuai-su-ru-men/xiu-gai-biao.md)
 * [主从复制](zhu-cong-fu-zhi.md)
+  * [创建用户](zhu-cong-fu-zhi/chuang-jian-yong-hu.md)
+  * [二进制日志](zhu-cong-fu-zhi/er-jin-zhi-ri-zhi.md)
+  * [配置主节点](zhu-cong-fu-zhi/pei-zhi-zhu-jie-dian.md)
+  * [配置从节点](zhu-cong-fu-zhi/pei-zhi-cong-jie-dian.md)
 

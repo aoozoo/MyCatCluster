@@ -16,7 +16,7 @@ ERROR 1820 (HY000) at line 1: You must reset your password using ALTER USER stat
 
 默认的密码策略,这个其实与validate\_password\_policy的值有关，RPM安装默认装载了validate\_password这个插件。
 
-首先修改默认的root密码
+首先修改默认的root密码，密码最少要8位长度
 
 ```bash
 [root@node_101_192.168.183.101 ~]#  mysql --connect-expired-password -uroot -p$(fgrep password /var/log/mysqld.log | awk '{print $NF}' | head -1) -e "alter user 'root'@'localhost' identified by 'Kinson@123';"
