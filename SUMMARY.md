@@ -13,4 +13,5 @@
   * [二进制日志](zhu-cong-fu-zhi/er-jin-zhi-ri-zhi.md)
   * [配置主节点](zhu-cong-fu-zhi/pei-zhi-zhu-jie-dian.md)
   * [配置从节点](zhu-cong-fu-zhi/pei-zhi-cong-jie-dian.md)
+* [主主复制](zhu-zhu-fu-zhi.md)
 
