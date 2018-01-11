@@ -1,4 +1,4 @@
-主主复制，是通过两台MySQL节点互为主备的方式来实现的。
+主主复制，是通过两台MySQL节点互为主备的方式来实现的，relay的SQL语句不会写入自己的二进制日志中。
 
 原来从节点配置
 
@@ -51,7 +51,7 @@ mysql> select * from mytest.t_order;
 +----+-----------+
 2 rows in set (0.00 sec)
 
-mysql> 
+mysql>
 ```
 
 在原来的主库插入

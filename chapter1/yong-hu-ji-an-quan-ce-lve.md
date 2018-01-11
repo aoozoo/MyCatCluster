@@ -134,15 +134,7 @@ sed -i '/\[mysqld\]/a\validate-password=off' /etc/my.cnf
 # 设置只验证密码长度大于等于4位
 sed -i '/\[mysqld\]/a\validate-password-length=4' /etc/my.cnf
 sed -i '/\[mysqld\]/a\validate-password-policy=0' /etc/my.cnf
-
-
-
-
-
-
 ```
-
-
 
 
 
