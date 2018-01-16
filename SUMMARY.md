@@ -16,4 +16,5 @@
 * [主主复制](zhu-zhu-fu-zhi.md)
 * [HAProxy](haproxy.md)
 * [Keepalived](keepalived.md)
+* [分库备份表概述](fen-ku-bei-fen-biao-gai-shu.md)
 
