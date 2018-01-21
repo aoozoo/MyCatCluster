@@ -217,14 +217,12 @@ mysql>
 [root@node_101_192.168.183.101 ~]#    # 看到数据分区是正确的。
 ```
 
-
-
 ### 使用hash表分区
 
 ```sql
 mysql> create table t_hash(id int primary key auto_increment,name varchar(10)) partition by hash(id) partitions 4;
 Query OK, 0 rows affected (0.11 sec)
-
+# 需要注意的是，使用hash分区的必须是主键而且是int类型
 mysql>
 [root@node_101_192.168.183.101 ~]#  ls /var/lib/mysql/mytest/ -lh | grep t_hash
 -rw-r----- 1 mysql mysql 8.4K Jan 16 06:57 t_hash.frm
@@ -250,59 +248,14 @@ mysql> insert into t_hash (name) select name from t_base;
 -rw-r----- 1 mysql mysql  11M Jan 16 06:58 t_hash#P#p2.ibd
 -rw-r----- 1 mysql mysql  11M Jan 16 06:58 t_hash#P#p3.ibd
 [root@node_101_192.168.183.101 ~]#     # 可以看到hash中的数据是同时增长的，hash能够将数据平稳的存放到各个表分区文件中
+[root@node_101_192.168.183.101 ~]#  ls /var/lib/mysql/mytest/ -lh | grep t_hash
+-rw-r----- 1 mysql mysql 8.4K Jan 16 06:57 t_hash.frm
+-rw-r----- 1 mysql mysql  40M Jan 16 06:59 t_hash#P#p0.ibd
+-rw-r----- 1 mysql mysql  40M Jan 16 06:59 t_hash#P#p1.ibd
+-rw-r----- 1 mysql mysql  40M Jan 16 06:59 t_hash#P#p2.ibd
+-rw-r----- 1 mysql mysql  40M Jan 16 06:59 t_hash#P#p3.ibd
+[root@node_101_192.168.183.101 ~]#
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
