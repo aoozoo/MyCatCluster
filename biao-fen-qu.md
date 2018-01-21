@@ -28,8 +28,6 @@
 
 > 每个表保存在一个单独的idb文件
 
-
-
 ### 表分区
 
 ---
@@ -49,8 +47,6 @@
 > **Key：**类似Hash分区，Hash分区允许使用用户自定义的表达式，但Key分区不允许使用用户自定义的表达式。Hash仅支持整数分区，而Key分区支持除了Blob和text的其他类型的列作为分区键。
 
 * 请参考：[http://www.notehub.cn/2016/03/20/dev/mysql\_partition/](http://www.notehub.cn/2016/03/20/dev/mysql_partition/)
-
-
 
 ### 使用range表分区
 
@@ -109,7 +105,7 @@ total 311M
 -rw-r----- 1 mysql mysql  40M Jan 16 06:21 t_range#P#p2.ibd
 -rw-r----- 1 mysql mysql  40M Jan 16 06:21 t_range#P#p3.ibd
 -rw-r----- 1 mysql mysql  14M Jan 16 06:21 t_range#P#p4.ibd
-[root@node_101_192.168.183.101 ~]#  
+[root@node_101_192.168.183.101 ~]#
 ```
 
 #### 验证range表分区中的数据
@@ -152,10 +148,10 @@ total 271M
 -rw-r----- 1 mysql mysql  40M Jan 16 06:21 t_range#P#p2.ibd
 -rw-r----- 1 mysql mysql  40M Jan 16 06:21 t_range#P#p3.ibd
 -rw-r----- 1 mysql mysql  14M Jan 16 06:21 t_range#P#p4.ibd
-[root@node_101_192.168.183.101 ~]#  
+[root@node_101_192.168.183.101 ~]#
 ```
 
-### 使用list分区表
+### 使用list表分区
 
 ```sql
 mysql> create table t_list(id int primary key auto_increment,province int) partition by list(id)(partition p0 values in(1,2,3),partition p1 values in(4,5,6),partition p2 values in(7,8,9));
@@ -223,13 +219,38 @@ mysql>
 
 
 
+### 使用hash表分区
 
+```sql
+mysql> create table t_hash(id int primary key auto_increment,name varchar(10)) partition by hash(id) partitions 4;
+Query OK, 0 rows affected (0.11 sec)
 
+mysql>
+[root@node_101_192.168.183.101 ~]#  ls /var/lib/mysql/mytest/ -lh | grep t_hash
+-rw-r----- 1 mysql mysql 8.4K Jan 16 06:57 t_hash.frm
+-rw-r----- 1 mysql mysql  96K Jan 16 06:57 t_hash#P#p0.ibd
+-rw-r----- 1 mysql mysql  96K Jan 16 06:57 t_hash#P#p1.ibd
+-rw-r----- 1 mysql mysql  96K Jan 16 06:57 t_hash#P#p2.ibd
+-rw-r----- 1 mysql mysql  96K Jan 16 06:57 t_hash#P#p3.ibd
+[root@node_101_192.168.183.101 ~]#
 
+# 插入400万条数据
+mysql> insert into t_hash (name) select name from t_base;
 
-
-
-
+[root@node_101_192.168.183.101 ~]#  ls /var/lib/mysql/mytest/ -lh | grep t_hash
+-rw-r----- 1 mysql mysql 8.4K Jan 16 06:57 t_hash.frm
+-rw-r----- 1 mysql mysql 9.0M Jan 16 06:58 t_hash#P#p0.ibd
+-rw-r----- 1 mysql mysql 9.0M Jan 16 06:58 t_hash#P#p1.ibd
+-rw-r----- 1 mysql mysql 9.0M Jan 16 06:58 t_hash#P#p2.ibd
+-rw-r----- 1 mysql mysql 9.0M Jan 16 06:58 t_hash#P#p3.ibd
+[root@node_101_192.168.183.101 ~]#  ls /var/lib/mysql/mytest/ -lh | grep t_hash
+-rw-r----- 1 mysql mysql 8.4K Jan 16 06:57 t_hash.frm
+-rw-r----- 1 mysql mysql  11M Jan 16 06:58 t_hash#P#p0.ibd
+-rw-r----- 1 mysql mysql  11M Jan 16 06:58 t_hash#P#p1.ibd
+-rw-r----- 1 mysql mysql  11M Jan 16 06:58 t_hash#P#p2.ibd
+-rw-r----- 1 mysql mysql  11M Jan 16 06:58 t_hash#P#p3.ibd
+[root@node_101_192.168.183.101 ~]#     # 可以看到hash中的数据是同时增长的，hash能够将数据平稳的存放到各个表分区文件中
+```
 
 
 
