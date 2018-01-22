@@ -31,6 +31,8 @@ dataHost\(ip,user,pass\)--&gt;
 
 * MyCat执行健康检查的命令 select user\(\)
 
+
+
 * 修改mycat的配置文件，然后重启mycat生效
 
 ```xml
