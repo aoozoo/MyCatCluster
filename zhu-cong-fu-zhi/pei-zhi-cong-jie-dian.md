@@ -18,8 +18,6 @@ start slave;
 show slave status\G   # 查看主从的状态
 ```
 
-
-
 遇到一个问题，主从同步停止了，这个问题的原因是，在master alter了userslave1用户的密码为asdF，而从库没有修改密码安全策略，这个密码太简单，因此这条sql语句在从库执行报错了，报错信息如下：
 
 ```
@@ -84,22 +82,21 @@ Master_SSL_Verify_Server_Cert: No
            Master_TLS_Version: 
 1 row in set (0.00 sec)
 
-mysql> 
+mysql>
 ```
-
-
 
 mysql主从复制，经常会遇到错误而导致slave端复制中断，这个时候一般就需要人工干预，跳过错误才能继续
 
 跳过错误有两种方式：
 
-**1.跳过指定数量的事件：**
+**1.跳过指定数量的事件：  
+**
 
 当使用这个语句的时候，需要理解二进制日志实际上是作为一系列的事件组。每个事件组包含一系列的事件。对于事务表，一个事件组对应一个事务。对于非事务表，一个事件组对应一条单独的SQL语句。需要注意的是，一个单独的事务可能既包含事务表，也包含非事务表。
 
 当使用SET GLOBAL sql\_slave\_skip\_counter跳过事件时，slave节点会处于事务组的中间，它会继续跳过一些事件直到它到达一个事务组的结束位置，然后slave节点会从下一个事件组开始执行。
 
-这个参数的默认值是0
+这个参数的默认值是0
 
 mysql&gt;set global sql\_slave\_skip\_counter=1        \#  跳过一个事件
 
@@ -107,9 +104,8 @@ mysql&gt; stop slave;
 
 mysql&gt; start slave;
 
-
-
-**2.修改mysql的配置文件，通过slave\_skip\_errors参数来跳所有错误或指定类型的错误**
+**2.修改mysql的配置文件，通过slave\_skip\_errors参数来跳所有错误或指定类型的错误  
+**
 
 vi /etc/my.cnf
 
@@ -118,8 +114,6 @@ vi /etc/my.cnf
 \#slave-skip-errors=1062,1053,1146          \# 跳过指定error no类型的错误
 
 \#slave-skip-errors=all                                  \# 跳过所有错误
-
-
 
 ```
 mysql> show slave status\G
@@ -136,7 +130,6 @@ mysql> show slave status\G
         Relay_Master_Log_File: mysql-bin.000006
              Slave_IO_Running: Yes                   # 如果这两个为Yes就表示，主从同步工作正常。
             Slave_SQL_Running: Yes                   # 如果这两个为Yes就表示，主从同步工作正常。
-
 ```
 
 

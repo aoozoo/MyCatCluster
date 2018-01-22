@@ -19,4 +19,5 @@
 * [分库分表概述](fen-ku-bei-fen-biao-gai-shu.md)
 * [表分区](biao-fen-qu.md)
 * [Mycat 安装](mycat-jie-shao.md)
+* [MyCat用户配置](mycatyong-hu-pei-zhi.md)
 

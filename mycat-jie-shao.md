@@ -19,8 +19,6 @@ source /etc/profile.d/java.sh
 java -version
 ```
 
-
-
 ### 安装MyCat
 
 ---
@@ -39,7 +37,17 @@ vim mycat/conf/wrapper.conf
 netstat -lntpu | grep java          # mycat 侦听了8066端口
 ```
 
-MyCat默认有个user的用户，密码也为user。
+MyCat默认有个user的用户，密码也为user
+
+root用户，密码为123456
+
+端口为8066
+
+![](/assets/2018-01-21_15h31_41.png)
+
+
+
+
 
 
 
