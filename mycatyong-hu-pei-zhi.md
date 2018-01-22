@@ -29,7 +29,11 @@ dataNode\(name\)--&gt;dataHost\(DBName\)
 
 dataHost\(ip,user,pass\)--&gt;
 
-select user\(\)
+
+
+* MyCat指定健康检查的命令 select user\(\)
+
+
 
 * 修改mycat的配置文件，然后重启mycat生效
 
@@ -54,8 +58,6 @@ Query OK, 1 row affected (0.01 sec)
 mysql>
 ```
 
-
-
 * mysql -h192.168.183.105 -uroot -p -P8066    \# 连接到mycat服务器
 
 ```
@@ -74,9 +76,7 @@ mysql>            # company 表一定要事先在mycat中定义
 mysql> create table company (id int primary key auto_increment,name varchar(10));
 Query OK, 0 rows affected (0.32 sec)
 
-mysql> 
-
-
+mysql>
 ```
 
 * 登录到103真实数据库服务器查看，每个库中都创建了 company 表 ，通过mycat查询只会查询到一条数据出来
@@ -121,11 +121,8 @@ mysql> show tables;
 +---------------+
 1 row in set (0.00 sec)
 
-mysql> 
-
+mysql>
 ```
-
-
 
 * mysql -h192.168.183.105 -uroot -p -P8066    \# 连接到mycat服务器   创建 employee  表，employee  表分片了。
 
