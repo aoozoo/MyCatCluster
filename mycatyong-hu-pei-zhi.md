@@ -29,11 +29,7 @@ dataNode\(name\)--&gt;dataHost\(DBName\)
 
 dataHost\(ip,user,pass\)--&gt;
 
-
-
-* MyCat指定健康检查的命令 select user\(\)
-
-
+* MyCat执行健康检查的命令 select user\(\)
 
 * 修改mycat的配置文件，然后重启mycat生效
 
