@@ -21,4 +21,5 @@
 * [Mycat 安装](mycat-jie-shao.md)
 * [MyCat用户配置](mycatyong-hu-pei-zhi.md)
 * [逻辑库和逻辑表配置](luo-ji-ku-he-luo-ji-biao-pei-zhi.md)
+* [分片](fen-pian.md)
 
