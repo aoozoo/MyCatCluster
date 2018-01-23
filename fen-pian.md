@@ -72,3 +72,5 @@ partition-hash-int.txt
 
 partition-hash-int.txt  中定义了分片的匹配条件
 
+
+
