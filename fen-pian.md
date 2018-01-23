@@ -42,8 +42,6 @@ Query OK, 1 row affected (0.05 sec)
 mysql>
 ```
 
-
-
 employee 表  分片的配置
 
 schema.xml
@@ -62,7 +60,6 @@ rule.xml
                         <algorithm>hash-int</algorithm>
                 </rule>
         </tableRule>
-
 ```
 
 partition-hash-int.txt
@@ -73,5 +70,5 @@ partition-hash-int.txt
 10010=1
 ```
 
-
+partition-hash-int.txt  中定义了分片的匹配条件
 
