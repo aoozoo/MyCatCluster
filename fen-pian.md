@@ -42,17 +42,35 @@ Query OK, 1 row affected (0.05 sec)
 mysql>
 ```
 
-```
 
-```
 
-company 表  分片的配置
+employee 表  分片的配置
 
 schema.xml
 
 ```
 <table name="employee" primaryKey="ID" dataNode="dn1,dn2"
 rule="sharding-by-intfile" />
+```
+
+rule.xml
+
+```
+        <tableRule name="sharding-by-intfile">
+                <rule>
+                        <columns>sharding_id</columns>
+                        <algorithm>hash-int</algorithm>
+                </rule>
+        </tableRule>
+
+```
+
+partition-hash-int.txt
+
+```
+[root@node_105_192.168.183.105 /usr/local/mycat/conf]#  cat partition-hash-int.txt
+10000=0
+10010=1
 ```
 
 
