@@ -47,6 +47,66 @@ root用户，密码为123456
 
 
 
+#### 内存设置
+
+http://www.cnblogs.com/ivictor/p/5319833.html
+
+vim /usr/local/mycat/conf/wrapper.conf 
+
+```
+# Initial Java Heap Size (in MB)
+#wrapper.java.initmemory=3
+
+# Maximum Java Heap Size (in MB)
+#wrapper.java.maxmemory=64
+
+# 单位为MB，如果填写2G，那么会设置为2MB，字符G会被忽略
+
+```
+
+
+
+#### 启动报错
+
+less /usr/local/mycat/logs/wrapper.log
+
+```
+Startup failed: Timed out waiting for a signal from the JVM.
+```
+
+启动如上报错，解决方法：
+
+vim /usr/local/mycat/conf/wrapper.conf
+
+```
+wrapper.startup.timeout=7200
+wrapper.ping.timeout=3600
+```
+
+wrapper.startup.timeout     \# 增加这行配置
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -22,4 +22,5 @@
 * [MyCat用户配置](mycatyong-hu-pei-zhi.md)
 * [逻辑库和逻辑表配置](luo-ji-ku-he-luo-ji-biao-pei-zhi.md)
 * [分片](fen-pian.md)
+* [读写分离](du-xie-fen-li.md)
 
