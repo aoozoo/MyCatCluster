@@ -1,11 +1,9 @@
 首先配置好MySQL 主从，MyCat 不负责数据同步问题
 
-
-
 vim /usr/local/mycat/conf/schema.xml
 
 ```
-        <dataHost name="localhost1" maxCon="1000" minCon="10" balance="0"
+        <dataHost name="localhost1" maxCon="1000" minCon="10" balance="3"
                           writeType="0" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100">
                 <heartbeat>select user()</heartbeat>
                 <!-- can have multi write hosts -->
@@ -18,22 +16,29 @@ vim /usr/local/mycat/conf/schema.xml
                                    password="123456" />   -->
                 <!-- <writeHost host="hostM2" url="localhost:3316" user="root" password="123456"/> -->
         </dataHost>
-
 ```
 
+balance 属性，负载均衡类型，目前的值有3种：
+
+1. balance="0", 不开启读写分离机制，所有读操作都发送到当前可用的writeHost上。
+
+2. balance="1"，全部的readHost与stand by writeHost参与select询句的负载均衡，简单的说，当双主双从模式\(M1-&gt;S1，M2-&gt;S2，并且M1与 M2互为主备\)，正常情况下，M2,S1,S2都参不select语句的负载均衡。
+
+3. balance="2"，所有读操作都随机的在writeHost、readhost上分发。
+
+4. balance="3"，所有读请求随机的分发到wiriterHost对应的readhost执行，writerHost不负担读压力，注意balance=3
+
+参考系列文档：http://blog.csdn.net/dream\_broken/article/details/77866342 
 
 
-balance 为0 表示读操作只会去readhost，为1表示读操作会去readhost和配置的冗余的writehost。
+
+
 
 
 
 * 启动MyCat 通过console的方式
 
 > /usr/local/mycat/bin/mycat console
-
-
-
-
 
 ```
 mysql> explain  insert into company (id,name) values (null,'m');
@@ -55,11 +60,8 @@ mysql> explain select * from company;
 +-----------+---------------------------------+
 1 row in set (0.00 sec)
 
-mysql> 
-
+mysql>
 ```
-
-
 
 **为了查看select 语句从哪个节点读取，打开日志级别为debug**
 
@@ -72,8 +74,6 @@ level="info"  level="debug"
 /usr/local/mycat/bin/mycat stop
 
 /usr/local/mycat/bin/mycat start
-
-
 
 ```
 mysql> explain  insert into company (id,name) values (null,'lll');
@@ -93,11 +93,8 @@ tail -f /usr/local/mycat/logs/wrapper.log
 
 ```
 INFO   | jvm 1    | 2018/01/28 11:27:01 | 2018-01-28 11:27:01,681 [DEBUG][$_NIOREACTOR-1-RW] ServerConnection [id=1, schema=TESTDB, host=192.168.183.101, user=root,txIsolation=3, autocommit=true, schema=TESTDB] explain  insert into company (id,name) values (null,'lll')  (io.mycat.net.FrontendConnection:FrontendConnection.java:288) 
-INFO   | jvm 1    | 2018/01/28 11:27:01 | 2018-01-28 11:27:01,682 [DEBUG][$_NIOREACTOR-1-RW] ServerConnection [id=1, schema=TESTDB, host=192.168.183.101, user=root,txIsolation=3, autocommit=true, schema=TESTDB]explain  insert into company (id,name) values (null,'lll')  (io.mycat.server.ServerQueryHandler:ServerQueryHandler.java:57) 
-
+INFO   | jvm 1    | 2018/01/28 11:27:01 | 2018-01-28 11:27:01,682 [DEBUG][$_NIOREACTOR-1-RW] ServerConnection [id=1, schema=TESTDB, host=192.168.183.101, user=root,txIsolation=3, autocommit=true, schema=TESTDB]explain  insert into company (id,name) values (null,'lll')  (io.mycat.server.ServerQueryHandler:ServerQueryHandler.java:57)
 ```
-
-
 
 ```
 mysql> explain select * from company;
@@ -116,17 +113,14 @@ tail -f /usr/local/mycat/logs/wrapper.log
 ```
 INFO   | jvm 1    | 2018/01/28 11:29:31 | 2018-01-28 11:29:31,510 [DEBUG][$_NIOREACTOR-1-RW] ServerConnection [id=1, schema=TESTDB, host=192.168.183.101, user=root,txIsolation=3, autocommit=true, schema=TESTDB] explain select * from company  (io.mycat.net.FrontendConnection:FrontendConnection.java:288) 
 INFO   | jvm 1    | 2018/01/28 11:29:31 | 2018-01-28 11:29:31,510 [DEBUG][$_NIOREACTOR-1-RW] ServerConnection [id=1, schema=TESTDB, host=192.168.183.101, user=root,txIsolation=3, autocommit=true, schema=TESTDB]explain select * from company  (io.mycat.server.ServerQueryHandler:ServerQueryHandler.java:57) 
-INFO   | jvm 1    | 2018/01/28 11:29:31 | 2018-01-28 11:29:31,510 [DEBUG][$_NIOREACTOR-1-RW] SQLRouteCache  miss cache ,key:TESTDBselect * from company  (io.mycat.cache.impl.EnchachePool:EnchachePool.java:77) 
-
+INFO   | jvm 1    | 2018/01/28 11:29:31 | 2018-01-28 11:29:31,510 [DEBUG][$_NIOREACTOR-1-RW] SQLRouteCache  miss cache ,key:TESTDBselect * from company  (io.mycat.cache.impl.EnchachePool:EnchachePool.java:77)
 ```
-
-
 
 ```
 mysql> insert into company (id,name) values (null,'lll');
 Query OK, 1 row affected (0.12 sec)
 
-mysql> 
+mysql>
 ```
 
 tail -f /usr/local/mycat/logs/wrapper.log
@@ -171,38 +165,12 @@ INFO   | jvm 1    | 2018/01/28 11:30:45 | 2018-01-28 11:30:45,425 [DEBUG][$_NIOR
 INFO   | jvm 1    | 2018/01/28 11:30:46 | 2018-01-28 11:30:46,238 [DEBUG][Timer0] con query sql:select user() to con:MySQLConnection [id=8, lastTime=1517110246238, user=root, schema=db3, old shema=db3, borrowed=true, fromSlaveDB=false, threadId=383, charset=latin1, txIsolation=3, autocommit=true, attachment=null, respHandler=null, host=192.168.183.102, port=3306, statusSync=null, writeQueue=0, modifiedSQLExecuted=false]  (io.mycat.sqlengine.SQLJob:SQLJob.java:88) 
 INFO   | jvm 1    | 2018/01/28 11:30:46 | 2018-01-28 11:30:46,239 [DEBUG][Timer0] con query sql:select user() to con:MySQLConnection [id=18, lastTime=1517110246239, user=root, schema=db3, old shema=db3, borrowed=true, fromSlaveDB=true, threadId=671, charset=latin1, txIsolation=3, autocommit=true, attachment=null, respHandler=null, host=192.168.183.103, port=3306, statusSync=null, writeQueue=0, modifiedSQLExecuted=false]  (io.mycat.sqlengine.SQLJob:SQLJob.java:88) 
 INFO   | jvm 1    | 2018/01/28 11:30:46 | 2018-01-28 11:30:46,243 [DEBUG][$_NIOREACTOR-1-RW] release channel MySQLConnection [id=18, lastTime=1517110246236, user=root, schema=db3, old shema=db3, borrowed=true, fromSlaveDB=true, threadId=671, charset=latin1, txIsolation=3, autocommit=true, attachment=null, respHandler=null, host=192.168.183.103, port=3306, statusSync=null, writeQueue=0, modifiedSQLExecuted=false]  (io.mycat.backend.datasource.PhysicalDatasource:PhysicalDatasource.java:442) 
-INFO   | jvm 1    | 2018/01/28 11:30:46 | 2018-01-28 11:30:46,244 [DEBUG][$_NIOREACTOR-0-RW] release channel MySQLConnection [id=8, lastTime=1517110246236, user=root, schema=db3, old shema=db3, borrowed=true, fromSlaveDB=false, threadId=383, charset=latin1, txIsolation=3, autocommit=true, attachment=null, respHandler=null, host=192.168.183.102, port=3306, statusSync=null, writeQueue=0, modifiedSQLExecuted=false]  (io.mycat.backend.datasource.PhysicalDatasource:PhysicalDatasource.java:442) 
-
-
+INFO   | jvm 1    | 2018/01/28 11:30:46 | 2018-01-28 11:30:46,244 [DEBUG][$_NIOREACTOR-0-RW] release channel MySQLConnection [id=8, lastTime=1517110246236, user=root, schema=db3, old shema=db3, borrowed=true, fromSlaveDB=false, threadId=383, charset=latin1, txIsolation=3, autocommit=true, attachment=null, respHandler=null, host=192.168.183.102, port=3306, statusSync=null, writeQueue=0, modifiedSQLExecuted=false]  (io.mycat.backend.datasource.PhysicalDatasource:PhysicalDatasource.java:442)
 ```
 
 > executeResponse:true from MySQLConnection......host=192.168.183.102
 
 * 可以看出insert操作都去了master节点102
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
