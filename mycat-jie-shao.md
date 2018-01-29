@@ -45,13 +45,11 @@ root用户，密码为123456
 
 ![](/assets/2018-01-21_15h31_41.png)
 
-
-
 #### 内存设置
 
-http://www.cnblogs.com/ivictor/p/5319833.html
+[http://www.cnblogs.com/ivictor/p/5319833.html](http://www.cnblogs.com/ivictor/p/5319833.html)
 
-vim /usr/local/mycat/conf/wrapper.conf 
+vim /usr/local/mycat/conf/wrapper.conf
 
 ```
 # Initial Java Heap Size (in MB)
@@ -61,10 +59,7 @@ vim /usr/local/mycat/conf/wrapper.conf
 #wrapper.java.maxmemory=64
 
 # 单位为MB，如果填写2G，那么会设置为2MB，字符G会被忽略
-
 ```
-
-
 
 #### 启动报错
 
@@ -87,29 +82,7 @@ wrapper.startup.timeout     \# 增加这行配置
 
 
 
+#### dble对MyCat做的增强
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+https://github.com/actiontech/dble/wiki/dble%E5%AF%B9MyCat%E5%81%9A%E7%9A%84%E5%A2%9E%E5%BC%BA
 
