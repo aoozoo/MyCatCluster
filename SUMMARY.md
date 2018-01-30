@@ -23,4 +23,8 @@
 * [逻辑库和逻辑表配置](luo-ji-ku-he-luo-ji-biao-pei-zhi.md)
 * [分片](fen-pian.md)
 * [读写分离](du-xie-fen-li.md)
+* [mycat 高可用 数据库](mycat-gao-ke-yong-shu-ju-ku.md)
+* [MyCat的集群](mycatde-ji-qun.md)
+* [MySQL的查询缓存](mysqlde-cha-xun-huan-cun.md)
+* [数据切分概述](shu-ju-qie-fen-gai-shu.md)
 
